@@ -18,9 +18,10 @@
  */
 package org.jasig.ssp.transferobject.reports;
 
+import java.util.Comparator;
 import org.jasig.ssp.model.Person;
 
-public class JournalCaseNotesStudentReportTO extends BaseStudentReportTO {
+public class JournalCaseNotesStudentReportTO extends BaseStudentReportTO implements Comparable<JournalCaseNotesStudentReportTO> {
 	
 	public JournalCaseNotesStudentReportTO(){
 		super();
@@ -57,5 +58,26 @@ public class JournalCaseNotesStudentReportTO extends BaseStudentReportTO {
 
 	public void setJournalSourceName(String journalSourceName) {
 		this.journalSourceName = journalSourceName;
+	}
+
+	@Override
+	public int compareTo(JournalCaseNotesStudentReportTO p2) {
+		int value = this.getLastName().compareToIgnoreCase(
+				p2.getLastName());
+		if(value != 0)
+			return value;
+
+		value = this.getFirstName().compareToIgnoreCase(
+				p2.getFirstName());
+		if(value != 0)
+			return value;
+		if(this.getMiddleName() == null && p2.getMiddleName() == null)
+			return 0;
+		if(this.getMiddleName() == null)
+			return -1;
+		if(p2.getMiddleName() == null)
+			return 1;
+		return this.getMiddleName().compareToIgnoreCase(
+				p2.getMiddleName());
 	}
 }

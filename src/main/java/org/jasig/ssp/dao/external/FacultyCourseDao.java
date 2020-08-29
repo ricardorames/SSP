@@ -75,7 +75,7 @@ public class FacultyCourseDao extends AbstractExternalDataDao<FacultyCourse> {
 	}
 
     @SuppressWarnings("unchecked")
-    public FacultyCourse getCourseByFacultySchoolIdAndFormattedCourseAndTermCode(
+    public FacultyCourse  getCourseByFacultySchoolIdAndFormattedCourseAndTermCode(
             final String facultySchoolId, final String formattedCourse, final String termCode)
             throws ObjectNotFoundException {
 
@@ -100,7 +100,10 @@ public class FacultyCourseDao extends AbstractExternalDataDao<FacultyCourse> {
                 .add(Restrictions.eq("facultySchoolId", facultySchoolId))
                 .add(Restrictions.eq("formattedCourse", formattedCourse))
                 .add(Restrictions.eq("termCode", termCode)).list();
-        return result.size() > 0 ? result.get(0) : null;
+        if(result.size() > 0) {
+            return result.get(0);
+        }
+        throw new ObjectNotFoundException(String.format("FacultyCourse with facultySchoolId %s, formattedCourse %s and termCode %s not found.", facultySchoolId, formattedCourse, termCode), persistentClass.getName());
         //END KLUDGE
     }
 

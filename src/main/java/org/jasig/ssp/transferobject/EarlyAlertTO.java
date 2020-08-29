@@ -37,7 +37,7 @@ import java.util.*;
  * @author jon.adams
  */
 public class EarlyAlertTO extends AbstractAuditableTO<EarlyAlert> implements
-		TransferObject<EarlyAlert>, Serializable {
+		TransferObject<EarlyAlert>, Serializable, Comparable<EarlyAlertTO> {
 
 
 
@@ -439,6 +439,10 @@ public class EarlyAlertTO extends AbstractAuditableTO<EarlyAlert> implements
 		return lastResponseDate;
 	}
 
+	public Date getLastResponseDateOrCreateDate() {
+		return lastResponseDate!=null ? lastResponseDate : getCreatedDate();
+	}
+
 	public void setLastResponseDate(Date lastResponseDate) {
 		this.lastResponseDate = lastResponseDate;
 	}
@@ -457,5 +461,16 @@ public class EarlyAlertTO extends AbstractAuditableTO<EarlyAlert> implements
 
 	public void setEnrollmentStatus(String enrollmentStatus) {
 		this.enrollmentStatus = enrollmentStatus;
+	}
+
+	@Override
+	public int compareTo(EarlyAlertTO p2) {
+		Date p1Date = this.getLastResponseDate();
+		if (p1Date == null)
+			p1Date = this.getCreatedDate();
+		Date p2Date = p2.getLastResponseDate();
+		if (p2Date == null)
+			p2Date = p2.getCreatedDate();
+		return p1Date.compareTo(p2Date);
 	}
 }

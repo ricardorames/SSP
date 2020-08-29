@@ -61,6 +61,10 @@ public class JournalEntryDetail
 		this.journalStepJournalStepDetail = journalStepJournalStepDetail;
 	}
 
+	public Boolean isUsedForTransition() {
+        return this.getJournalStepJournalStepDetail().getJournalStep().isUsedForTransition();
+	}
+
 	@Override
 	protected int hashPrime() {
 		return 257;
